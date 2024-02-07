@@ -11,6 +11,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.17",
+    "@heroicons/react": "^2.1.1",
     "@types/jest": "^29.5.12",
     "@types/react-router-dom": "^5.3.3",
     "react": "^18.2.0",
