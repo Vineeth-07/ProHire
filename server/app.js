@@ -2,13 +2,12 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 app.use(cors());
+const bodyParser = require("body-parser");
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+const postRoutes = require("./routes/post");
 
-app.get("/", (req, res) => {
-  const data = {
-    name: ["a", "b"],
-    age: [1, 2],
-  };
-  res.status(200).json(data);
-});
+//routes
+app.use("/post", postRoutes);
 
 module.exports = app;
