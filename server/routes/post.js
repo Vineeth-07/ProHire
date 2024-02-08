@@ -33,7 +33,7 @@ router.post("/createpost", async (req, res) => {
       deadline,
       experience
     );
-    res.status(200);
+    res.status(201).json({ message: "Post created successfully" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: error });

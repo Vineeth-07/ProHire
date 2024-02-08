@@ -15,9 +15,7 @@ type Inputs = {
 
 const CreatePost: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
-  const closeModal = () => {
-    setShowModal(false);
-  };
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -46,6 +44,7 @@ const CreatePost: React.FC = () => {
       experience,
     } = data;
     try {
+      console.log("Test");
       const response = await fetch("http://localhost:3000/post/createpost", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -63,8 +62,8 @@ const CreatePost: React.FC = () => {
       if (!response.ok) {
         throw new Error(data.message || "Posting job failed");
       }
-      console.log("Success");
       alert("Job posted successfully!");
+      setShowModal(false);
     } catch (error) {
       console.error("Posting job failed:", error);
       alert("Failed to post job!");

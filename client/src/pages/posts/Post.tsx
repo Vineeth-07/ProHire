@@ -3,6 +3,7 @@ import PostListItems from "./PostListItems";
 
 const Post: React.FC = () => {
   const [postData, setPostData] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(true); // Track loading state
 
   useEffect(() => {
     fetchData();
@@ -16,12 +17,35 @@ const Post: React.FC = () => {
       }
       const data = await response.json();
       setPostData(data);
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error);
+      setLoading(false);
     }
   };
 
-  return <PostListItems postData={postData} />;
+  return (
+    <>
+      <div style={{ textAlign: "center", marginTop: "30px" }}>
+        {loading ? (
+          <div>Loading...</div>
+        ) : postData.length === 0 ? (
+          <p
+            style={{
+              color: "white",
+              fontWeight: "bold",
+              fontSize: "30px",
+              fontFamily: "cursive",
+            }}
+          >
+            No posts available
+          </p>
+        ) : (
+          <PostListItems postData={postData} />
+        )}
+      </div>
+    </>
+  );
 };
 
 export default Post;

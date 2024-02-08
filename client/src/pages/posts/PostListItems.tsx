@@ -81,10 +81,11 @@ const PostListItems: React.FC<{ postData: any[] }> = ({ postData }) => {
             >
               <h2
                 style={{
-                  marginBottom: "5px",
+                  marginBottom: "10px",
                   color: "blueviolet",
                   fontSize: "1.2rem",
                   fontWeight: "bold",
+                  textAlign: "left",
                 }}
               >
                 {post.title}

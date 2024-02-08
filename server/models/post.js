@@ -1,5 +1,5 @@
 "use strict";
-const { Model } = require("sequelize");
+const { Model, where } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Post extends Model {
     /**
@@ -28,8 +28,11 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
     static getPosts() {
-      return Post.findAll();
+      return Post.findAll({
+        order: [["id", "DESC"]],
+      });
     }
+
     static associate(models) {
       // define association here
     }
