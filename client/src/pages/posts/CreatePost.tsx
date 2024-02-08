@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { UserCircleIcon } from "@heroicons/react/24/outline";
 import { useForm, SubmitHandler } from "react-hook-form";
 import maleIcon from "../../assets/images/male.png";
+import { API_ENDPOINT } from "../../config/constants";
 
 type Inputs = {
   title: string;
@@ -27,11 +27,7 @@ const CreatePost: React.FC = () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<Inputs>();
+  const { register, handleSubmit } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const {
@@ -44,8 +40,7 @@ const CreatePost: React.FC = () => {
       experience,
     } = data;
     try {
-      console.log("Test");
-      const response = await fetch("http://localhost:3000/post/createpost", {
+      const response = await fetch(`${API_ENDPOINT}/post/createpost`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -64,6 +59,7 @@ const CreatePost: React.FC = () => {
       }
       alert("Job posted successfully!");
       setShowModal(false);
+      window.location.reload();
     } catch (error) {
       console.error("Posting job failed:", error);
       alert("Failed to post job!");
