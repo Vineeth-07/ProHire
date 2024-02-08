@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 import { useForm, SubmitHandler } from "react-hook-form";
+import maleIcon from "../../assets/images/male.png";
 
 type Inputs = {
   title: string;
@@ -14,6 +15,9 @@ type Inputs = {
 
 const CreatePost: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
+  const closeModal = () => {
+    setShowModal(false);
+  };
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -55,12 +59,15 @@ const CreatePost: React.FC = () => {
           experience: experience,
         }),
       });
-      if (!response.ok) {
-        throw new Error("Posting job failed");
-      }
       const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message || "Posting job failed");
+      }
+      console.log("Success");
+      alert("Job posted successfully!");
     } catch (error) {
       console.error("Posting job failed:", error);
+      alert("Failed to post job!");
     }
   };
 
@@ -75,7 +82,7 @@ const CreatePost: React.FC = () => {
       }}
     >
       <div style={{ marginRight: "16px" }}>
-        <UserCircleIcon className="h-8 w-8" />
+        <img src={maleIcon} alt="icon" className="h-12 w-12" />
       </div>
       <div
         style={{
@@ -154,6 +161,7 @@ const CreatePost: React.FC = () => {
                 id="title"
                 {...register("title", { required: true })}
                 style={{ marginBottom: "8px", padding: "8px" }}
+                required
               />
               <label
                 htmlFor="company"
@@ -166,6 +174,7 @@ const CreatePost: React.FC = () => {
                 id="company"
                 {...register("company", { required: true })}
                 style={{ marginBottom: "8px", padding: "8px" }}
+                required
               />
 
               <label
@@ -179,6 +188,7 @@ const CreatePost: React.FC = () => {
                 id="description"
                 {...register("description", { required: true })}
                 style={{ marginBottom: "8px", padding: "8px" }}
+                required
               />
 
               <label
@@ -192,6 +202,7 @@ const CreatePost: React.FC = () => {
                 id="location"
                 {...register("location", { required: true })}
                 style={{ marginBottom: "8px", padding: "8px" }}
+                required
               />
               <label
                 htmlFor="salary"
@@ -204,6 +215,7 @@ const CreatePost: React.FC = () => {
                 id="salary"
                 {...register("salary", { required: true })}
                 style={{ marginBottom: "8px", padding: "8px" }}
+                required
               />
               <label
                 htmlFor="deadline"
@@ -216,6 +228,8 @@ const CreatePost: React.FC = () => {
                 id="deadline"
                 {...register("deadline", { required: true })}
                 style={{ marginBottom: "8px", padding: "8px" }}
+                min={new Date().toISOString().split("T")[0]}
+                required
               />
               <label
                 htmlFor="experience"
@@ -228,9 +242,11 @@ const CreatePost: React.FC = () => {
                 id="experience"
                 {...register("experience", { required: true })}
                 style={{ marginBottom: "8px", padding: "8px" }}
+                required
               />
               <button
                 type="submit"
+                className="bg-gradient-to-r from-pink-600 to-red-600"
                 style={{
                   padding: "10px",
                   backgroundColor: "#4CAF50",
@@ -239,7 +255,7 @@ const CreatePost: React.FC = () => {
                   cursor: "pointer",
                 }}
               >
-                Submit
+                Post
               </button>
             </form>
           </div>

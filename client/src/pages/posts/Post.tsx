@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
+import PostListItems from "./PostListItems";
 
-const PostList: React.FC = () => {
+const Post: React.FC = () => {
   const [postData, setPostData] = useState<any[]>([]);
 
   useEffect(() => {
@@ -20,19 +21,7 @@ const PostList: React.FC = () => {
     }
   };
 
-  return (
-    <div>
-      <h1>Posts</h1>
-      <ul>
-        {postData.map((post: any, index: number) => (
-          <li key={index}>
-            <h2>{post.title}</h2>
-            <p>{post.content}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+  return <PostListItems postData={postData} />;
 };
 
-export default PostList;
+export default Post;
