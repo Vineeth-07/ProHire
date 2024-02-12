@@ -1,0 +1,44 @@
+name: Auto test ProHire
+on: push
+env:
+  PG_DATABASE: prohire_db_test
+  PG_USER: postgres
+  PG_PASSWORD: vineeth123
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:11.7
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: vineeth123
+          POSTGRES_DB: prohire_db_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: cd l10 && npm ci
+
+      - name: Run unit tests
+        run: cd server && npm test
+      - name: Run the app
+        id: run-app
+        run: |
+          cd server
+          npm install
+          npx sequelize-cli db:drop
+          npx sequelize-cli db:create
+          npx sequelize-cli db:migrate
+          PORT=3000 npm start &
+          sleep 5
