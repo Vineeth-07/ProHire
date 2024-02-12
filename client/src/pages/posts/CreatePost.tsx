@@ -57,8 +57,8 @@ const CreatePost: React.FC = () => {
       if (!response.ok) {
         throw new Error(data.message || "Posting job failed");
       }
-      alert("Job posted successfully!");
       setShowModal(false);
+      alert("Job posted successfully!");
       window.location.reload();
     } catch (error) {
       console.error("Posting job failed:", error);
