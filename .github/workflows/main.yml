@@ -1,9 +1,14 @@
 name: Auto test ProHire
-on: push
+on:
+  push:
+    branches:
+      - main
+
 env:
   PG_DATABASE: prohire_db_test
   PG_USER: postgres
   PG_PASSWORD: ${{ secrets.POSTGRESQL_PW }}
+
 jobs:
   run-tests:
     runs-on: ubuntu-latest
@@ -51,6 +56,18 @@ jobs:
           cd server
           npm install cypress cypress-json-results
           npx cypress run
+
+  deploy:
+    name: Backend deploy
+    needs: [run-tests]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Production
+        uses: johnbeynon/render-deploy-action@v0.0.8
+        with:
+          service-id: ${{ secrets.RENDER_SERVICE_ID }}
+          api-key: ${{ secrets.RENDER_TOKEN }}
 
       - name: Notify Slack
         if: ${{ always() }}
