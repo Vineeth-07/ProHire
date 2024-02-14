@@ -30,6 +30,9 @@ jobs:
       - name: Install dependencies
         run: cd server && npm ci
 
+      - name: Install Netlify
+        run: npm install netlify-cli@17.10.1 -g
+
       - name: Run unit tests
         id: unit-tests
         run: cd server && npm test
@@ -76,9 +79,9 @@ jobs:
           api-key: ${{ secrets.RENDER_TOKEN }}
 
       - name: Frontend deploy to Netlify
-        uses: netlify/actions/cli@master
-        with:
-          args: deploy --dir=client
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: NETLIFY_SITE_ID
+        id: netlify-deploy
+        run: |
+          netlify deploy \
+            --dir dist \
+            --site ${{ secrets.NETLIFY_SITE_ID }} \
+            --auth ${{ secrets.NETLIFY_AUTH_TOKEN }}
