@@ -59,15 +59,11 @@ jobs:
           npm install cypress cypress-json-results
           npx cypress run
 
-  notify-slack:
-    runs-on: ubuntu-latest
-
-    steps:
       - name: Notify Slack
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
-          if [[ ${{ job.needs.run-tests.status }} == 'success' ]]; then
+          if [[ ${{ needs.run-tests.result }} == 'success' ]]; then
             curl -X POST -H 'Content-type: application/json' --data '{"text":"Workflow *Auto test ProHire* completed successfully. \nCheck the logs for details: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"}' $SLACK_WEBHOOK_URL
           else
             curl -X POST -H 'Content-type: application/json' --data '{"text":"Workflow *Auto test ProHire* failed.\nCheck the logs for details: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"}' $SLACK_WEBHOOK_URL
