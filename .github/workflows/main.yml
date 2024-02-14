@@ -31,6 +31,7 @@ jobs:
         run: cd server && npm ci
 
       - name: Run unit tests
+        id: unit-tests
         run: cd server && npm test
 
       - name: Run the app
@@ -45,20 +46,25 @@ jobs:
           sleep 5
 
       - name: Run integration tests
+        id: integration-tests
         run: |
           cd server
           npm install cypress cypress-json-results
           npx cypress run
 
+      - name: Debug GitHub Run URL
+         run: echo "GitHub Run URL: ${{ github.run_url }}"
+
       - name: Notify Slack
         if: ${{ always() }}
-        env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
           if [[ ${{ job.status }} == 'success' ]]; then
-            curl -X POST -H 'Content-type: application/json' --data '{"text":"Workflow *Auto test ProHire* completed successfully."}' $SLACK_WEBHOOK_URL
+            curl -X POST -H 'Content-type: application/json' --data '{"text":"Workflow *Auto test ProHire* completed successfully. Check the logs for details: ${{ github.run_url }}"}' $SLACK_WEBHOOK_URL
           else
             # Fetch error details from job logs
-            error_message=$(echo -e "${{ job.steps[*].name }}\n${{ job.steps[*].result }}\n\n${{ job.steps[*].conclusion }}")
-            curl -X POST -H 'Content-type: application/json' --data '{"text":"Workflow *Auto test ProHire* failed. Reason: '"$error_message"'."}' $SLACK_WEBHOOK_URL
+            unit_test_result=$(echo "${{ steps.unit-tests.outputs.run-result }}")
+            integration_test_result=$(echo "${{ steps.integration-tests.outputs.run-result }}")
+            error_message="Unit Tests: $unit_test_result\nIntegration Tests: $integration_test_result"
+            curl -X POST -H 'Content-type: application/json' --data '{"text":"Workflow *Auto test ProHire* failed. Reason:\n$error_message\nCheck the logs for details: ${{ github.run_url }}"}' $SLACK_WEBHOOK_URL
           fi
