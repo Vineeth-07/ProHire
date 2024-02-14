@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import AccountLayout from "../../layouts/account";
 import Post from "../posts/index";
 
