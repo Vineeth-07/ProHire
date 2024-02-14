@@ -60,7 +60,7 @@ jobs:
           npx cypress run
 
   deploy:
-    name: Backend deploy
+    name: Auto deployment
     needs: [run-tests]
     runs-on: ubuntu-latest
 
