@@ -58,11 +58,8 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
           if [[ ${{ job.status }} == 'success' ]]; then
-            curl -X POST -H 'Content-type: application/json' --data '{"text":"Workflow *Auto test ProHire* completed successfully. Check the logs for details: ${{ github.run_url }}"}' $SLACK_WEBHOOK_URL
+            curl -X POST -H 'Content-type: application/json' --data '{"text":"Workflow *Auto test ProHire* completed successfully. Check the logs for details: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"}' $SLACK_WEBHOOK_URL
           else
             # Fetch error details from job logs
-            unit_test_result=$(echo "${{ steps.unit-tests.outputs.run-result }}")
-            integration_test_result=$(echo "${{ steps.integration-tests.outputs.run-result }}")
-            error_message="Unit Tests: $unit_test_result\nIntegration Tests: $integration_test_result"
-            curl -X POST -H 'Content-type: application/json' --data '{"text":"Workflow *Auto test ProHire* failed. Reason:\n$error_message\nCheck the logs for details: ${{ github.run_url }}"}' $SLACK_WEBHOOK_URL
+            curl -X POST -H 'Content-type: application/json' --data '{"text":"Workflow *Auto test ProHire* ${{ github.workflow }} failed. Reason:\n$error_message\nCheck the logs for details: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"}' $SLACK_WEBHOOK_URL
           fi
