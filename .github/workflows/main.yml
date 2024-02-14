@@ -1,4 +1,5 @@
 name: Auto test ProHire
+
 on:
   push:
     branches:
@@ -64,14 +65,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Production
+      - name: Backend deploy to Render
         uses: johnbeynon/render-deploy-action@v0.0.8
         with:
           service-id: ${{ secrets.RENDER_SERVICE_ID }}
           api-key: ${{ secrets.RENDER_TOKEN }}
 
+      - name: Frontend deploy to Netlify
+        uses: netlify/actions/cli@master
+        with:
+          args: deploy --prod
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: NETLIFY_SITE_ID
+
       - name: Notify Slack
-        if: ${{ always() }}
+        if: always()
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
