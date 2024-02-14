@@ -60,6 +60,7 @@ jobs:
           npx cypress run
 
       - name: Notify Slack
+        needs: [run-tests]
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
