@@ -1,15 +1,13 @@
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 import logo from "../../assets/images/logo.png";
 import { Link } from "react-router-dom";
 
 const Appbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
     <Disclosure as="nav" className="bg-white shadow">
-      {({ open }) => (
+      {({}) => (
         <>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between h-16 items-center">
