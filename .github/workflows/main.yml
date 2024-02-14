@@ -3,7 +3,7 @@ on: push
 env:
   PG_DATABASE: prohire_db_test
   PG_USER: postgres
-  PG_PASSWORD: vineeth123
+  PG_PASSWORD: ${{secrets.POSTGRESQL_PW}}
 jobs:
   run-tests:
     runs-on: ubuntu-latest
@@ -13,7 +13,7 @@ jobs:
         image: postgres:11.7
         env:
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: vineeth123
+          POSTGRES_PASSWORD: ${{secrets.POSTGRESQL_PW}}
           POSTGRES_DB: prohire_db_test
         options: >-
           --health-cmd pg_isready
@@ -32,6 +32,7 @@ jobs:
 
       - name: Run unit tests
         run: cd server && npm test
+
       - name: Run the app
         id: run-app
         run: |
@@ -48,3 +49,9 @@ jobs:
           cd server
           npm install cypress cypress-json-results
           npx cypress run
+
+      - name: Notify Slack
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"Workflow *Auto test ProHire* completed successfully. Check the logs for details: ${{ github.run_url }}"}' $SLACK_WEBHOOK_URL
