@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import PostListItems from "./PostListItems";
+import { API_ENDPOINT } from "../../config/constants";
 
 const Post: React.FC = () => {
   const [postData, setPostData] = useState<any[]>([]);
-  const [loading, setLoading] = useState<boolean>(true); // Track loading state
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     fetchData();
@@ -11,7 +12,7 @@ const Post: React.FC = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch("http://localhost:3000/post");
+      const response = await fetch(`${API_ENDPOINT}/post`);
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }

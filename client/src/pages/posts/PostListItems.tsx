@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { UserCircleIcon } from "@heroicons/react/24/outline";
 import maleIcon from "../../assets/images/male.png";
 
 const PostListItems: React.FC<{ postData: any[] }> = ({ postData }) => {
