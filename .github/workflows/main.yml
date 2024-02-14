@@ -1,16 +1,9 @@
 name: Auto test ProHire
-
-on:
-  push:
-    branches:
-      - main
-      - Feature
-
+on: push
 env:
   PG_DATABASE: prohire_db_test
   PG_USER: postgres
   PG_PASSWORD: ${{ secrets.POSTGRESQL_PW }}
-
 jobs:
   run-tests:
     runs-on: ubuntu-latest
@@ -64,7 +57,7 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
-          if [[ ${{ needs.run-tests.result }} == 'success' ]]; then
+          if [[ ${{ job.status }} == 'success' ]]; then
             curl -X POST -H 'Content-type: application/json' --data '{"text":"Workflow *Auto test ProHire* completed successfully. \nCheck the logs for details: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"}' $SLACK_WEBHOOK_URL
           else
             curl -X POST -H 'Content-type: application/json' --data '{"text":"Workflow *Auto test ProHire* failed.\nCheck the logs for details: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"}' $SLACK_WEBHOOK_URL
