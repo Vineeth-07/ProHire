@@ -53,7 +53,7 @@ jobs:
           npx cypress run
 
       - name: Debug GitHub Run URL
-         run: echo "GitHub Run URL: ${{ github.run_url }}"
+        run: echo "GitHub Run URL: ${{ github.run_url }}"
 
       - name: Notify Slack
         if: ${{ always() }}
