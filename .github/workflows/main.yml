@@ -51,7 +51,7 @@ jobs:
           cd server
           npm install cypress cypress-json-results
           npx cypress run
-
+      #notifications
       - name: Notify Slack
         if: ${{ always() }}
         env:
@@ -62,7 +62,7 @@ jobs:
           else
             curl -X POST -H 'Content-type: application/json' --data '{"text":"Workflow *Auto test ProHire* failed.\nCheck the logs for details: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"}' $SLACK_WEBHOOK_URL
           fi
-
+  #deployemnt
   deploy:
     name: Auto deployment
     needs: [run-tests]
