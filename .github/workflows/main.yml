@@ -51,10 +51,7 @@ jobs:
           cd server
           npm install cypress cypress-json-results
           npx cypress run
-
-      - name: Debug GitHub Run URL
-        run: echo "GitHub Run URL: ${{ github.run_url }}"
-
+          
       - name: Notify Slack
         if: ${{ always() }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
