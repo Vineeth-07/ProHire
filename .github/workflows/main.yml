@@ -60,7 +60,6 @@ jobs:
           npx cypress run
 
   notify-slack:
-    needs: [run-tests]
     runs-on: ubuntu-latest
 
     steps:
