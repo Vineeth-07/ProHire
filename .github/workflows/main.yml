@@ -51,9 +51,10 @@ jobs:
           cd server
           npm install cypress cypress-json-results
           npx cypress run
-          
+
       - name: Notify Slack
         if: ${{ always() }}
+        env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
           if [[ ${{ job.status }} == 'success' ]]; then
