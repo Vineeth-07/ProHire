@@ -3,7 +3,7 @@ on: push
 env:
   PG_DATABASE: prohire_db_test
   PG_USER: postgres
-  PG_PASSWORD: ${{secrets.POSTGRESQL_PW}}
+  PG_PASSWORD: ${{ secrets.POSTGRESQL_PW }}
 jobs:
   run-tests:
     runs-on: ubuntu-latest
@@ -13,7 +13,7 @@ jobs:
         image: postgres:11.7
         env:
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: ${{secrets.POSTGRESQL_PW}}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRESQL_PW }}
           POSTGRES_DB: prohire_db_test
         options: >-
           --health-cmd pg_isready
@@ -51,7 +51,14 @@ jobs:
           npx cypress run
 
       - name: Notify Slack
+        if: ${{ always() }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"Workflow *Auto test ProHire* completed successfully. Check the logs for details: ${{ github.run_url }}"}' $SLACK_WEBHOOK_URL
+          if [[ ${{ job.status }} == 'success' ]]; then
+            curl -X POST -H 'Content-type: application/json' --data '{"text":"Workflow *Auto test ProHire* completed successfully. Check the logs for details: ${{ github.run_url }}"}' $SLACK_WEBHOOK_URL
+          else
+            # Fetch error details from job logs
+            error_message=$(echo -e "${{ job.steps[*].name }}\n${{ job.steps[*].result }}\n\n${{ job.steps[*].conclusion }}")
+            curl -X POST -H 'Content-type: application/json' --data '{"text":"Workflow *Auto test ProHire* failed. Reason: '"$error_message"'. Check the logs for details: ${{ github.run_url }}"}' $SLACK_WEBHOOK_URL
+          fi
