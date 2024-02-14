@@ -78,7 +78,7 @@ jobs:
       - name: Frontend deploy to Netlify
         uses: netlify/actions/cli@master
         with:
-          args: deploy --prod
+          args: deploy --prod --dir=client
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: NETLIFY_SITE_ID
