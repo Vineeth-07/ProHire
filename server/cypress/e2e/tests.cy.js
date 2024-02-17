@@ -30,6 +30,6 @@ describe("ProHire tests", () => {
       experience: "test experience",
     })
       .its("status")
-      .should("eq", 200);
+      .should("eq", 201);
   });
 });
