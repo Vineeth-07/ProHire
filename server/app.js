@@ -71,6 +71,6 @@ passport.deserializeUser((id, done) => {
 
 //routes
 app.use("/user", userRoutes);
-app.use("/post", connectEnsureLogin.ensureLoggedIn(), postRoutes);
+app.use("/post", postRoutes);
 
 module.exports = app;
