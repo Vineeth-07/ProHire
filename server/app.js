@@ -7,7 +7,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 const postRoutes = require("./routes/post");
 
-//routes
+//routes for post
 app.use("/post", postRoutes);
 
 module.exports = app;
