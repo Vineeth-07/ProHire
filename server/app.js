@@ -1,25 +1,29 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-app.use(cors());
 const bodyParser = require("body-parser");
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.urlencoded({ extended: true }));
-var cookieParser = require("cookie-parser");
+const cookieParser = require("cookie-parser");
+const session = require("express-session");
 const passport = require("passport");
-const connectEnsureLogin = require("connect-ensure-login");
 const LocalStrategy = require("passport-local");
 const bcrypt = require("bcrypt");
-const session = require("express-session");
-app.use(cookieParser("Some secret String"));
 const { User } = require("./models");
 const postRoutes = require("./routes/post");
 const userRoutes = require("./routes/user");
+const connectEnsureLogin = require("connect-ensure-login");
 
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser("Some secret String"));
+
+// Add express-session middleware
 app.use(
   session({
     secret: "my-super-secret-key-2837428907583420",
+    resave: false,
+    saveUninitialized: false,
     cookie: {
       maxAge: 24 * 60 * 60 * 1000,
     },
@@ -35,21 +39,23 @@ passport.use(
       usernameField: "email",
       passwordField: "password",
     },
-    (username, password, done) => {
-      User.findOne({ where: { email: username } })
-        .then(async function (user) {
-          const result = await bcrypt.compare(password, user.password);
-          if (result) {
-            return done(null, user);
-          } else {
-            return done(null, false, { message: "Invalid password" });
-          }
-        })
-        .catch(() => {
+    async (username, password, done) => {
+      try {
+        const user = await User.findOne({ where: { email: username } });
+        if (!user) {
           return done(null, false, {
-            message: "Account doesn't exist for this mail",
+            message: "Account doesn't exist for this email",
           });
-        });
+        }
+        const result = await bcrypt.compare(password, user.password);
+        if (result) {
+          return done(null, user);
+        } else {
+          return done(null, false, { message: "Invalid password" });
+        }
+      } catch (error) {
+        return done(error);
+      }
     }
   )
 );
@@ -69,7 +75,7 @@ passport.deserializeUser((id, done) => {
     });
 });
 
-//routes
+// Routes
 app.use("/user", userRoutes);
 app.use("/post", postRoutes);
 

@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { User } = require("../models");
 const bcrypt = require("bcrypt");
+const passport = require("passport");
 
 //user routes
 router.get("/", async (req, res) => {
@@ -38,22 +39,8 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-router.post("/signin", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const user = await User.findOne({ where: { email } });
-    if (!user) {
-      return res.status(401).json({ message: "Invalid email or password" });
-    }
-    const passwordMatch = await bcrypt.compare(password, user.password);
-    if (!passwordMatch) {
-      return res.status(401).json({ message: "Invalid email or password" });
-    }
-    res.status(200).json({ message: "Sign-in successful", user });
-  } catch (error) {
-    console.error("Error occurred during sign-in:", error);
-    res.status(500).json({ error: "An error occurred during sign-in" });
-  }
+router.post("/signin", passport.authenticate("local"), (req, res) => {
+  res.status(200).json({ message: "Sign-in successful" });
 });
 
 router.get("/signout", (req, res, next) => {
@@ -66,7 +53,7 @@ router.get("/signout", (req, res, next) => {
 });
 
 router.get("/check-authentication", (req, res) => {
-  console.log(req.isAuthenticated());
+  console.log(req.user.id);
   if (req.isAuthenticated()) {
     res.status(200).json({ authenticated: true });
   } else {
