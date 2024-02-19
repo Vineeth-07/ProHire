@@ -24,8 +24,23 @@ describe("ProHires test cases", () => {
     }
   });
 
-  test("Sample test", () => {
-    expect(true).toBe(true);
+  test("Signup new user", async () => {
+    res = await agent.post("/user/signup").send({
+      name: "test",
+      gender: "male",
+      qualification: "test",
+      email: "hello@example.com",
+      password: "123456789",
+    });
+    expect(res.statusCode).toBe(200);
+  });
+
+  test("User login", async () => {
+    res = await agent.post("/user/signin").send({
+      email: "hello@example.com",
+      password: "123456789",
+    });
+    expect(res.statusCode).toBe(200);
   });
 
   test("Retrieve posts", async () => {

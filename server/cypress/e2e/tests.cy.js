@@ -6,7 +6,7 @@ describe("ProHire tests", () => {
       name: "test",
       gender: "male",
       qualification: "test",
-      email: "sello@example.com",
+      email: "hello@example.com",
       password: "123456789",
     }).then((response) => {
       authToken = response.body.token;
@@ -15,11 +15,41 @@ describe("ProHire tests", () => {
 
   beforeEach(() => {
     cy.request("POST", `${url}/user/signin`, {
-      email: "sello@example.com",
+      email: "hello@example.com",
       password: "123456789",
     }).then((response) => {
       authToken = response.body.token;
     });
+  });
+
+  it("Signup new user", () => {
+    cy.request("POST", `${url}/user/signup`, {
+      name: "test",
+      gender: "male",
+      qualification: "test",
+      email: "test@example.com",
+      password: "123456789",
+    })
+      .then((response) => {
+        authToken = response.body.token;
+      })
+      .its("status")
+      .should("eq", 200);
+  });
+
+  it("User login", () => {
+    cy.request("POST", `${url}/user/signin`, {
+      name: "test",
+      gender: "male",
+      qualification: "test",
+      email: "test@example.com",
+      password: "123456789",
+    })
+      .then((response) => {
+        authToken = response.body.token;
+      })
+      .its("status")
+      .should("eq", 200);
   });
 
   it("Fetch posts", () => {
