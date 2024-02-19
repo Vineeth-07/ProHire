@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import maleIcon from "../../assets/images/male.png";
-import { API_ENDPOINT } from "../../config/constants";
+import femaleIcon from "../../assets/images/female.png";
+import { postJobData } from "../../api/PostApi";
+import { fetchUserData } from "../../api/UserApi";
+import { UserData } from "../../api/UserApi";
 
-type Inputs = {
+interface Inputs {
   title: string;
   company: string;
   description: string;
@@ -11,10 +14,39 @@ type Inputs = {
   salary: string;
   deadline: Date;
   experience: string;
-};
+}
 
 const CreatePost: React.FC = () => {
+  const [userData, setUserData] = useState<UserData[]>([]);
   const [showModal, setShowModal] = useState(false);
+  const { register, handleSubmit } = useForm<Inputs>();
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    try {
+      await postJobData(data, localStorage.getItem("authToken"));
+      setShowModal(false);
+      alert("Job posted successfully!");
+      window.location.reload();
+    } catch (error) {
+      alert("Failed to post job!");
+    }
+  };
+
+  useEffect(() => {
+    userApi();
+  }, []);
+
+  const userApi = async () => {
+    try {
+      const data = await fetchUserData();
+      setUserData(data);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+  const user = Object.values(userData)[0];
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -27,47 +59,6 @@ const CreatePost: React.FC = () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
-  const { register, handleSubmit } = useForm<Inputs>();
-
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    const {
-      title,
-      company,
-      description,
-      location,
-      salary,
-      deadline,
-      experience,
-    } = data;
-    try {
-      const response = await fetch(`${API_ENDPOINT}/post/createpost`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
-        body: JSON.stringify({
-          title: title,
-          company: company,
-          description: description,
-          location: location,
-          salary: salary,
-          deadline: deadline,
-          experience: experience,
-        }),
-      });
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.message || "Posting job failed");
-      }
-      setShowModal(false);
-      alert("Job posted successfully!");
-      window.location.reload();
-    } catch (error) {
-      console.error("Posting job failed:", error);
-      alert("Failed to post job!");
-    }
-  };
 
   return (
     <div
@@ -80,7 +71,19 @@ const CreatePost: React.FC = () => {
       }}
     >
       <div style={{ marginRight: "16px" }}>
-        <img src={maleIcon} alt="icon" className="h-12 w-12" />
+        <div>
+          {loading ? (
+            <div>Loading...</div>
+          ) : (
+            <>
+              <img
+                src={user.gender === "male" ? maleIcon : femaleIcon}
+                alt="icon"
+                className="h-12 w-12"
+              />
+            </>
+          )}
+        </div>
       </div>
       <div
         style={{

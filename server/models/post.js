@@ -14,7 +14,8 @@ module.exports = (sequelize, DataTypes) => {
       location,
       salary,
       deadline,
-      experience
+      experience,
+      userId
     ) {
       return Post.create({
         title: title,
@@ -25,6 +26,7 @@ module.exports = (sequelize, DataTypes) => {
         date: new Date(),
         deadline: deadline,
         experience: experience,
+        userId: userId,
       });
     }
     static getPosts() {
@@ -35,6 +37,9 @@ module.exports = (sequelize, DataTypes) => {
 
     static associate(models) {
       // define association here
+      Post.belongsTo(models.User, {
+        foreignKey: "userId",
+      });
     }
   }
   Post.init(
