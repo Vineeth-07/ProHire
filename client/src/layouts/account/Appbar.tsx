@@ -2,30 +2,9 @@ import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 import logo from "../../assets/images/logo.png";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Appbar = () => {
-  const navigate = useNavigate();
-  const handleSignout = async () => {
-    try {
-      const response = await fetch("/user/signout", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (response.ok) {
-        console.log("Signout successful");
-        navigate("/signin");
-      } else {
-        const data = await response.json();
-        throw new Error(data.message);
-      }
-    } catch (error) {
-      console.error("Error during signout:", error);
-    }
-  };
   return (
     <Disclosure as="nav" className="bg-white shadow">
       {({}) => (
@@ -88,16 +67,16 @@ const Appbar = () => {
                               </Menu.Item>
                               <Menu.Item>
                                 {({ active }) => (
-                                  <p
+                                  <Link
+                                    to="/logout"
                                     className={`${
                                       active
                                         ? "bg-gray-100 text-gray-900"
                                         : "text-gray-700"
-                                    } block px-4 py-2 text-sm hover:cursor-pointer`}
-                                    onClick={handleSignout}
+                                    } block px-4 py-2 text-sm`}
                                   >
                                     Signout
-                                  </p>
+                                  </Link>
                                 )}
                               </Menu.Item>
                             </div>
