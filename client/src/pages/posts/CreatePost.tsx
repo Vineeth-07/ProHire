@@ -42,7 +42,10 @@ const CreatePost: React.FC = () => {
     try {
       const response = await fetch(`${API_ENDPOINT}/post/createpost`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
         body: JSON.stringify({
           title: title,
           company: company,

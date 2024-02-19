@@ -12,7 +12,13 @@ const Post: React.FC = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`${API_ENDPOINT}/post`);
+      const response = await fetch(`${API_ENDPOINT}/post`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      });
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }

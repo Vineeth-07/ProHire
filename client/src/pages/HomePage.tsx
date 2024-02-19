@@ -21,13 +21,13 @@ const HomePage: React.FC = () => {
             </p>
             <div className="flex mt-4">
               <Link
-                to="/"
+                to="/signin"
                 className="bg-gradient-to-r from-purple-500 to-indigo-500 text-white font-bold py-2 px-4 rounded-full mr-4 transition duration-300 ease-in-out transform hover:-translate-y-1"
               >
-                Login
+                Signin
               </Link>
               <Link
-                to="/"
+                to="/signup"
                 className="bg-gradient-to-r from-purple-500 to-indigo-500 text-white font-bold py-2 px-4 rounded-full mr-4 transition duration-300 ease-in-out transform hover:-translate-y-1"
               >
                 Signup

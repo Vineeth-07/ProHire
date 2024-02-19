@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const { Post } = require("../models");
+const authenticateToken = require("../middleware/authMiddleware");
 
 //post routes
-router.get("/", async (req, res) => {
+router.get("/", authenticateToken, async (req, res) => {
   try {
     const posts = await Post.getPosts();
     res.status(200).json(posts);
@@ -13,7 +14,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/createpost", async (req, res) => {
+router.post("/createpost", authenticateToken, async (req, res) => {
   try {
     const {
       title,
