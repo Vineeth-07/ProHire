@@ -4,10 +4,10 @@ env:
   PG_DATABASE: prohire_db_test
   PG_USER: postgres
   PG_PASSWORD: ${{ secrets.POSTGRESQL_PW }}
+  SECRET: ${{ secrets.SECRET }}
 jobs:
   run-tests:
     runs-on: ubuntu-latest
-
     services:
       postgres:
         image: postgres:11.7
