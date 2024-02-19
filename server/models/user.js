@@ -15,8 +15,17 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
 
+    static getUsers() {
+      return User.findAll({
+        order: [["id", "DESC"]],
+      });
+    }
+
     static associate(models) {
       // define association here
+      User.hasMany(models.Post, {
+        foreignKey: "userId",
+      });
     }
   }
   User.init(

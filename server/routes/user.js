@@ -3,6 +3,7 @@ const router = express.Router();
 const { User } = require("../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const authenticateToken = require("../middleware/authMiddleware");
 require("dotenv").config();
 
 const createToken = (id) => {
@@ -60,21 +61,27 @@ router.post("/signin", async (req, res) => {
   }
 });
 
-router.get("/signout", (req, res, next) => {
-  req.logout((err) => {
-    if (err) {
-      return next(err);
+router.get("/profile", authenticateToken, async (req, res) => {
+  try {
+    const uid = req.user.id;
+    const user = await User.findByPk(uid);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
     }
-    res.status(200).json({ message: "Signout successful" });
-  });
+    return res.status(200).json({ user });
+  } catch (error) {
+    console.error("Error occurred while finding user:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
 });
 
-router.get("/check-authentication", (req, res) => {
-  console.log(req.user.id);
-  if (req.isAuthenticated()) {
-    res.status(200).json({ authenticated: true });
-  } else {
-    res.status(401).json({ authenticated: false });
+router.get("/allusers", authenticateToken, async (req, res) => {
+  try {
+    const users = await User.getUsers();
+    res.status(200).json(users);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: error });
   }
 });
 

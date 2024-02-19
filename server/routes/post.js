@@ -32,7 +32,8 @@ router.post("/createpost", authenticateToken, async (req, res) => {
       location,
       salary,
       deadline,
-      experience
+      experience,
+      req.user.id
     );
     res.status(201).json({ message: "Post created successfully" });
   } catch (error) {
