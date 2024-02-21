@@ -27,6 +27,7 @@ router.post("/signup", async (req, res) => {
       qualification,
       email,
       password: hashedPassword,
+      savedJobs: JSON.stringify([]),
     });
     const token = createToken(newUser.id);
     return res

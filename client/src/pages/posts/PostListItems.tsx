@@ -5,6 +5,7 @@ import { fetchAllUsers } from "../../api/UserApi";
 import { fetchUserData } from "../../api/UserApi";
 import { UserData } from "../../api/UserApi";
 import { applyJob } from "../../api/PostApi";
+import { saveJob } from "../../api/PostApi";
 
 const PostListItems: React.FC<{ postData: any[]; setPostData: any }> = ({
   postData,
@@ -14,6 +15,7 @@ const PostListItems: React.FC<{ postData: any[]; setPostData: any }> = ({
   const [userData, setUserData] = useState<UserData[]>([]);
   const [loggedinUser, setloggedinUser] = useState<UserData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [refreshComponent, setRefreshComponent] = useState<boolean>(false);
 
   useEffect(() => {
     userApi();
@@ -23,7 +25,7 @@ const PostListItems: React.FC<{ postData: any[]; setPostData: any }> = ({
     }, 60000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [refreshComponent]);
 
   const userApi = async () => {
     try {
@@ -38,7 +40,8 @@ const PostListItems: React.FC<{ postData: any[]; setPostData: any }> = ({
   const loggedinUserApi = async () => {
     try {
       const data = await fetchUserData();
-      setloggedinUser(data);
+      const userDataArray = Object.values(data);
+      setloggedinUser(userDataArray);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -62,6 +65,15 @@ const PostListItems: React.FC<{ postData: any[]; setPostData: any }> = ({
       setPostData(updatedPostData);
     } catch (error) {
       console.error("Error applying job:", error);
+    }
+  };
+
+  const savePost = async (postId: number) => {
+    try {
+      await saveJob(postId, currentUser.id);
+      setRefreshComponent((prevState) => !prevState);
+    } catch (error) {
+      console.error("Error saving job:", error);
     }
   };
 
@@ -90,6 +102,7 @@ const PostListItems: React.FC<{ postData: any[]; setPostData: any }> = ({
       } ago`;
     }
   };
+  console.log(currentUser && currentUser.savedJobs);
   return (
     <>
       {postData.map((post: any, index: number) => {
@@ -177,7 +190,6 @@ const PostListItems: React.FC<{ postData: any[]; setPostData: any }> = ({
                   <span className="text-gray-800 font-bold mr-1">Company:</span>
                   {post.company}
                 </p>
-
                 <p className="flex items-center mb-2">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -340,14 +352,20 @@ const PostListItems: React.FC<{ postData: any[]; setPostData: any }> = ({
                 </svg>
                 <span>Comment</span>
               </div>
-
               <div
                 className="flex items-center space-x-1"
                 style={{ cursor: "pointer" }}
+                onClick={() => {
+                  savePost(post.id);
+                }}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
+                  fill={
+                    currentUser && currentUser.savedJobs.includes(post.id)
+                      ? "green"
+                      : "none"
+                  }
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="currentColor"
@@ -359,7 +377,9 @@ const PostListItems: React.FC<{ postData: any[]; setPostData: any }> = ({
                     d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z"
                   />
                 </svg>
-                <span>Save</span>
+                {currentUser && currentUser.savedJobs.includes(post.id)
+                  ? "Saved"
+                  : "Save"}
               </div>
             </div>
           </div>

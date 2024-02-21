@@ -7,6 +7,7 @@ export interface UserData {
   qualification: string;
   email: string;
   password: string;
+  savedJobs: (string | number)[];
 }
 
 export const fetchUserData = async (): Promise<UserData[]> => {
