@@ -37,7 +37,7 @@ const Post: React.FC = () => {
           No posts available
         </p>
       ) : (
-        <PostListItems postData={postData} />
+        <PostListItems postData={postData} setPostData={setPostData} />
       )}
     </div>
   );

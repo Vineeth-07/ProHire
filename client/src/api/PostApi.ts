@@ -66,3 +66,27 @@ export const postJobData = async (
     throw error;
   }
 };
+
+export const applyJob = async (postId: number, userId: number) => {
+  try {
+    const response = await fetch(
+      `${API_ENDPOINT}/post/${postId}/apply/${userId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+        body: JSON.stringify({ postId, userId }),
+      }
+    );
+    const responseData = await response.json();
+    if (!response.ok) {
+      throw new Error(responseData.message || "Applying job failed");
+    }
+    return responseData;
+  } catch (error) {
+    console.error("Applying job failed:", error);
+    throw error;
+  }
+};

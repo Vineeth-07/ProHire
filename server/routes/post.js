@@ -7,6 +7,7 @@ const authenticateToken = require("../middleware/authMiddleware");
 router.get("/", authenticateToken, async (req, res) => {
   try {
     const posts = await Post.getPosts();
+    console.log(posts);
     res.status(200).json(posts);
   } catch (error) {
     console.log(error);
@@ -36,6 +37,17 @@ router.post("/createpost", authenticateToken, async (req, res) => {
       req.user.id
     );
     res.status(201).json({ message: "Post created successfully" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: error });
+  }
+});
+
+router.post("/:postId/apply/:userId", authenticateToken, async (req, res) => {
+  try {
+    const { postId, userId } = req.body;
+    await Post.addApplication(postId, userId);
+    res.status(201).json({ message: "Job applied successfully" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: error });
