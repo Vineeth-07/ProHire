@@ -8,6 +8,7 @@ module.exports = {
     out_file: "logs/output.log",
     log_file: "logs/combined.log",
     merge_logs: true,
+    autorestart:false,
     env_production: {
       PORT: 3000
     }
