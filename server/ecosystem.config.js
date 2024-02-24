@@ -1,10 +1,15 @@
 module.exports = {
-    apps: [{
-      name: "static-file",
-      script: "serve",
-      env: {
-        PM2_SERVE_PATH: ".",
-        PM2_SERVE_PORT: 8080,
-      },
-    }]
-  }
+  apps: [{
+    name: "ProHire",
+    script: "index.js",
+    instances: "max",
+    exec_mode: "cluster",
+    error_file: "logs/error.log",
+    out_file: "logs/output.log",
+    log_file: "logs/combined.log",
+    merge_logs: true,
+    env_production: {
+      PORT: 3000
+    }
+  }]
+}
