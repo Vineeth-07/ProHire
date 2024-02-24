@@ -14,6 +14,7 @@ interface Inputs {
   salary: string;
   deadline: Date;
   experience: string;
+  applications: string;
 }
 
 const CreatePost: React.FC = () => {

@@ -7,7 +7,6 @@ const authenticateToken = require("../middleware/authMiddleware");
 router.get("/", authenticateToken, async (req, res) => {
   try {
     const posts = await Post.getPosts();
-    console.log(posts);
     res.status(200).json(posts);
   } catch (error) {
     console.log(error);
@@ -59,24 +58,15 @@ router.post("/:postId/save/:userId", authenticateToken, async (req, res) => {
     const { postId, userId } = req.params;
     const user = await User.findByPk(userId);
     console.log(user);
-
     if (user) {
       const savedJobs = JSON.parse(user.savedJobs);
-
-      // Check if postId already exists in savedJobs
       const index = savedJobs.indexOf(postId);
-
       if (index === -1) {
-        // PostId not found, add postId to savedJobs
         savedJobs.push(postId);
       } else {
-        // PostId found, remove postId from savedJobs
         savedJobs.splice(index, 1);
       }
-
-      // Update user with the modified savedJobs array
       await user.update({ savedJobs: JSON.stringify(savedJobs) });
-
       return res
         .status(200)
         .json({ message: "Saved jobs updated successfully" });

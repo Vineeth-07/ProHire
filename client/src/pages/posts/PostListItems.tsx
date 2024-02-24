@@ -6,6 +6,7 @@ import { fetchUserData } from "../../api/UserApi";
 import { UserData } from "../../api/UserApi";
 import { applyJob } from "../../api/PostApi";
 import { saveJob } from "../../api/PostApi";
+import CommentBox from "../comments/CommentBox";
 
 const PostListItems: React.FC<{ postData: any[]; setPostData: any }> = ({
   postData,
@@ -16,6 +17,16 @@ const PostListItems: React.FC<{ postData: any[]; setPostData: any }> = ({
   const [loggedinUser, setloggedinUser] = useState<UserData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [refreshComponent, setRefreshComponent] = useState<boolean>(false);
+  const [showDialogMap, setShowDialogMap] = useState<{
+    [postId: number]: boolean;
+  }>({});
+
+  const toggleDialog = (postId: number) => {
+    setShowDialogMap((prevMap) => ({
+      ...prevMap,
+      [postId]: !prevMap[postId],
+    }));
+  };
 
   useEffect(() => {
     userApi();
@@ -102,7 +113,7 @@ const PostListItems: React.FC<{ postData: any[]; setPostData: any }> = ({
       } ago`;
     }
   };
-  console.log(currentUser && currentUser.savedJobs);
+
   return (
     <>
       {postData.map((post: any, index: number) => {
@@ -313,7 +324,7 @@ const PostListItems: React.FC<{ postData: any[]; setPostData: any }> = ({
                   viewBox="0 0 24 24"
                   fill={
                     currentUser && post.applications.includes(currentUser.id)
-                      ? "green"
+                      ? "#1FE11C"
                       : "gray"
                   }
                   className="w-6 h-6"
@@ -335,6 +346,7 @@ const PostListItems: React.FC<{ postData: any[]; setPostData: any }> = ({
               <div
                 className="flex items-center space-x-1"
                 style={{ cursor: "pointer" }}
+                onClick={() => toggleDialog(post.id)}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -363,13 +375,13 @@ const PostListItems: React.FC<{ postData: any[]; setPostData: any }> = ({
                   xmlns="http://www.w3.org/2000/svg"
                   fill={
                     currentUser && currentUser.savedJobs.includes(post.id)
-                      ? "green"
+                      ? "#F53333"
                       : "none"
                   }
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="currentColor"
-                  className="w-6 h-6"
+                  className="w-6 h-6 mr-1"
                 >
                   <path
                     strokeLinecap="round"
@@ -382,6 +394,9 @@ const PostListItems: React.FC<{ postData: any[]; setPostData: any }> = ({
                   : "Save"}
               </div>
             </div>
+            {showDialogMap[post.id] && (
+              <CommentBox post={post} user={currentUser} allUsers={userData} />
+            )}
           </div>
         );
       })}
