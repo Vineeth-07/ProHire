@@ -27,6 +27,7 @@ module.exports = (sequelize, DataTypes) => {
         deadline: deadline,
         experience: experience,
         userId: userId,
+        applications: JSON.stringify([]),
       });
     }
     static getPosts() {
@@ -35,11 +36,24 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
 
+    static async addApplication(postId, userId) {
+      const post = await Post.findByPk(postId);
+      if (post) {
+        const applications = JSON.parse(post.applications);
+        applications.push(userId);
+        return post.update({ applications: JSON.stringify(applications) });
+      }
+      return null;
+    }
+
     static associate(models) {
       // define association here
       Post.belongsTo(models.User, {
         foreignKey: "userId",
       });
+      Post.hasMany(models.Comment,{
+        foreignKey:"postId"
+      })
     }
   }
   Post.init(
@@ -52,6 +66,7 @@ module.exports = (sequelize, DataTypes) => {
       date: DataTypes.DATE,
       deadline: DataTypes.DATE,
       experience: DataTypes.STRING,
+      applications: DataTypes.STRING,
     },
     {
       sequelize,

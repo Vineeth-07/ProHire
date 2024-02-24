@@ -10,6 +10,7 @@ export interface PostData {
   date: Date;
   deadline: Date;
   experience: string;
+  applications: string;
 }
 
 interface JobData {
@@ -20,6 +21,7 @@ interface JobData {
   salary: string;
   deadline: Date;
   experience: string;
+  applications: string;
 }
 
 export const fetchPostData = async (): Promise<PostData[]> => {
@@ -63,6 +65,54 @@ export const postJobData = async (
     return responseData;
   } catch (error) {
     console.error("Posting job failed:", error);
+    throw error;
+  }
+};
+
+export const applyJob = async (postId: number, userId: number) => {
+  try {
+    const response = await fetch(
+      `${API_ENDPOINT}/post/${postId}/apply/${userId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+        body: JSON.stringify({ postId, userId }),
+      }
+    );
+    const responseData = await response.json();
+    if (!response.ok) {
+      throw new Error(responseData.message || "Applying job failed");
+    }
+    return responseData;
+  } catch (error) {
+    console.error("Applying job failed:", error);
+    throw error;
+  }
+};
+
+export const saveJob = async (postId: number, userId: number) => {
+  try {
+    const response = await fetch(
+      `${API_ENDPOINT}/post/${postId}/save/${userId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+        body: JSON.stringify({ postId, userId }),
+      }
+    );
+    const responseData = await response.json();
+    if (!response.ok) {
+      throw new Error(responseData.message || "Saving job failed");
+    }
+    return responseData;
+  } catch (error) {
+    console.error("Saving job failed:", error);
     throw error;
   }
 };

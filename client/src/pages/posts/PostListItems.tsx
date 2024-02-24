@@ -2,21 +2,41 @@ import React, { useEffect, useState } from "react";
 import maleIcon from "../../assets/images/male.png";
 import femaleIcon from "../../assets/images/female.png";
 import { fetchAllUsers } from "../../api/UserApi";
+import { fetchUserData } from "../../api/UserApi";
 import { UserData } from "../../api/UserApi";
+import { applyJob } from "../../api/PostApi";
+import { saveJob } from "../../api/PostApi";
+import CommentBox from "../comments/CommentBox";
 
-const PostListItems: React.FC<{ postData: any[] }> = ({ postData }) => {
+const PostListItems: React.FC<{ postData: any[]; setPostData: any }> = ({
+  postData,
+  setPostData,
+}) => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [userData, setUserData] = useState<UserData[]>([]);
+  const [loggedinUser, setloggedinUser] = useState<UserData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [refreshComponent, setRefreshComponent] = useState<boolean>(false);
+  const [showDialogMap, setShowDialogMap] = useState<{
+    [postId: number]: boolean;
+  }>({});
+
+  const toggleDialog = (postId: number) => {
+    setShowDialogMap((prevMap) => ({
+      ...prevMap,
+      [postId]: !prevMap[postId],
+    }));
+  };
 
   useEffect(() => {
     userApi();
+    loggedinUserApi();
     const timer = setInterval(() => {
       setCurrentTime(new Date());
     }, 60000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [refreshComponent]);
 
   const userApi = async () => {
     try {
@@ -25,6 +45,46 @@ const PostListItems: React.FC<{ postData: any[] }> = ({ postData }) => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
+    }
+  };
+
+  const loggedinUserApi = async () => {
+    try {
+      const data = await fetchUserData();
+      const userDataArray = Object.values(data);
+      setloggedinUser(userDataArray);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+  const currentUser = Object.values(loggedinUser)[0];
+
+  const handleApply = async (postId: number) => {
+    try {
+      const response = await applyJob(postId, currentUser.id);
+      console.log(response);
+      const updatedPostData = postData.map((post) => {
+        if (post.id === postId) {
+          return {
+            ...post,
+            applications: [...post.applications, currentUser.id],
+          };
+        }
+        return post;
+      });
+      setPostData(updatedPostData);
+    } catch (error) {
+      console.error("Error applying job:", error);
+    }
+  };
+
+  const savePost = async (postId: number) => {
+    try {
+      await saveJob(postId, currentUser.id);
+      setRefreshComponent((prevState) => !prevState);
+    } catch (error) {
+      console.error("Error saving job:", error);
     }
   };
 
@@ -53,6 +113,7 @@ const PostListItems: React.FC<{ postData: any[] }> = ({ postData }) => {
       } ago`;
     }
   };
+
   return (
     <>
       {postData.map((post: any, index: number) => {
@@ -102,7 +163,6 @@ const PostListItems: React.FC<{ postData: any[] }> = ({ postData }) => {
                 </div>
               </div>
             )}
-
             <ul style={{ listStyleType: "none", padding: 0 }}>
               <li
                 style={{
@@ -141,7 +201,6 @@ const PostListItems: React.FC<{ postData: any[] }> = ({ postData }) => {
                   <span className="text-gray-800 font-bold mr-1">Company:</span>
                   {post.company}
                 </p>
-
                 <p className="flex items-center mb-2">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -247,6 +306,97 @@ const PostListItems: React.FC<{ postData: any[] }> = ({ postData }) => {
                 </p>
               </li>
             </ul>
+            <div className="flex items-center justify-between">
+              <div
+                className="flex items-center space-x-1"
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  if (
+                    currentUser &&
+                    !post.applications.includes(currentUser.id)
+                  ) {
+                    handleApply(post.id);
+                  }
+                }}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill={
+                    currentUser && post.applications.includes(currentUser.id)
+                      ? "#1FE11C"
+                      : "gray"
+                  }
+                  className="w-6 h-6"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+
+                <span>
+                  {currentUser && post.applications.includes(currentUser.id)
+                    ? "Applied"
+                    : "Apply"}
+                </span>
+              </div>
+
+              <div
+                className="flex items-center space-x-1"
+                style={{ cursor: "pointer" }}
+                onClick={() => toggleDialog(post.id)}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.076-4.076a1.526 1.526 0 0 1 1.037-.443 48.282 48.282 0 0 0 5.68-.494c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"
+                  />
+                </svg>
+                <span>Comment</span>
+              </div>
+              <div
+                className="flex items-center space-x-1"
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  savePost(post.id);
+                }}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill={
+                    currentUser && currentUser.savedJobs.includes(post.id)
+                      ? "#F53333"
+                      : "none"
+                  }
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6 mr-1"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z"
+                  />
+                </svg>
+                {currentUser && currentUser.savedJobs.includes(post.id)
+                  ? "Saved"
+                  : "Save"}
+              </div>
+            </div>
+            {showDialogMap[post.id] && (
+              <CommentBox post={post} user={currentUser} allUsers={userData} />
+            )}
           </div>
         );
       })}

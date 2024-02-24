@@ -26,6 +26,9 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.Post, {
         foreignKey: "userId",
       });
+      User.hasMany(models.Comment,{
+        foreignKey:"userId"
+      })
     }
   }
   User.init(
@@ -35,6 +38,7 @@ module.exports = (sequelize, DataTypes) => {
       qualification: DataTypes.STRING,
       email: DataTypes.STRING,
       password: DataTypes.STRING,
+      savedJobs: DataTypes.STRING,
     },
     {
       sequelize,
