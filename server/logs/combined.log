@@ -10978,3 +10978,93 @@ Executing (default): SELECT "id", "name", "gender", "qualification", "email", "p
 Executing (default): SELECT "id", "name", "gender", "qualification", "email", "password", "savedJobs", "createdAt", "updatedAt" FROM "Users" AS "User" WHERE "User"."id" = 1;
 Executing (default): SELECT "id", "name", "gender", "qualification", "email", "password", "savedJobs", "createdAt", "updatedAt" FROM "Users" AS "User" WHERE "User"."email" = 'lkas@lksd' LIMIT 1;
 Executing (default): SELECT "id", "name", "gender", "qualification", "email", "password", "savedJobs", "createdAt", "updatedAt" FROM "Users" AS "User" WHERE "User"."email" = 'vineeth@gmail.com' LIMIT 1;
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+ConnectionRefusedError [SequelizeConnectionRefusedError]: connect ECONNREFUSED 127.0.0.1:5432
+    at Client._connectionCallback [90m(/home/vineeth/code/ProHire/server/[39mnode_modules/[4msequelize[24m/lib/dialects/postgres/connection-manager.js:133:24[90m)[39m
+    at Client._handleErrorWhileConnecting [90m(/home/vineeth/code/ProHire/server/[39mnode_modules/[4mpg[24m/lib/client.js:327:19[90m)[39m
+    at Client._handleErrorEvent [90m(/home/vineeth/code/ProHire/server/[39mnode_modules/[4mpg[24m/lib/client.js:337:19[90m)[39m
+[90m    at Connection.emit (node:events:512:28)[39m
+    at Socket.reportStreamError [90m(/home/vineeth/code/ProHire/server/[39mnode_modules/[4mpg[24m/lib/connection.js:58:12[90m)[39m
+[90m    at Socket.emit (node:events:512:28)[39m
+[90m    at emitErrorNT (node:internal/streams/destroy:151:8)[39m
+[90m    at emitErrorCloseNT (node:internal/streams/destroy:116:3)[39m
+[90m    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)[39m {
+  parent: Error: connect ECONNREFUSED 127.0.0.1:5432
+  [90m    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1532:16)[39m {
+    errno: [33m-111[39m,
+    code: [32m'ECONNREFUSED'[39m,
+    syscall: [32m'connect'[39m,
+    address: [32m'127.0.0.1'[39m,
+    port: [33m5432[39m
+  },
+  original: Error: connect ECONNREFUSED 127.0.0.1:5432
+  [90m    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1532:16)[39m {
+    errno: [33m-111[39m,
+    code: [32m'ECONNREFUSED'[39m,
+    syscall: [32m'connect'[39m,
+    address: [32m'127.0.0.1'[39m,
+    port: [33m5432[39m
+  }
+}
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Executing (default): SELECT "id", "name", "gender", "qualification", "email", "password", "savedJobs", "createdAt", "updatedAt" FROM "Users" AS "User" WHERE "User"."email" = 'vineeth@gmail.com' LIMIT 1;
+Executing (default): SELECT "id", "title", "company", "description", "location", "salary", "date", "deadline", "experience", "applications", "createdAt", "updatedAt", "userId" FROM "Posts" AS "Post" ORDER BY "Post"."id" DESC;
+Executing (default): SELECT "id", "title", "company", "description", "location", "salary", "date", "deadline", "experience", "applications", "createdAt", "updatedAt", "userId" FROM "Posts" AS "Post" ORDER BY "Post"."id" DESC;
+Executing (default): SELECT "id", "name", "gender", "qualification", "email", "password", "savedJobs", "createdAt", "updatedAt" FROM "Users" AS "User" WHERE "User"."id" = 1;
+Executing (default): SELECT "id", "name", "gender", "qualification", "email", "password", "savedJobs", "createdAt", "updatedAt" FROM "Users" AS "User" WHERE "User"."id" = 1;
+Executing (default): SELECT "id", "name", "gender", "qualification", "email", "password", "savedJobs", "createdAt", "updatedAt" FROM "Users" AS "User" WHERE "User"."id" = 1;
+Executing (default): SELECT "id", "name", "gender", "qualification", "email", "password", "savedJobs", "createdAt", "updatedAt" FROM "Users" AS "User" WHERE "User"."id" = 1;
+Executing (default): SELECT "id", "name", "gender", "qualification", "email", "password", "savedJobs", "createdAt", "updatedAt" FROM "Users" AS "User" ORDER BY "User"."id" DESC;
+Executing (default): SELECT "id", "name", "gender", "qualification", "email", "password", "savedJobs", "createdAt", "updatedAt" FROM "Users" AS "User" ORDER BY "User"."id" DESC;
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Executing (default): SELECT "id", "name", "gender", "qualification", "email", "password", "savedJobs", "createdAt", "updatedAt" FROM "Users" AS "User" WHERE "User"."id" = 1;
+Executing (default): SELECT "id", "name", "gender", "qualification", "email", "password", "savedJobs", "createdAt", "updatedAt" FROM "Users" AS "User" WHERE "User"."id" = 1;
+Executing (default): SELECT "id", "name", "gender", "qualification", "email", "password", "savedJobs", "createdAt", "updatedAt" FROM "Users" AS "User" ORDER BY "User"."id" DESC;
+Executing (default): SELECT "id", "name", "gender", "qualification", "email", "password", "savedJobs", "createdAt", "updatedAt" FROM "Users" AS "User" ORDER BY "User"."id" DESC;
+Executing (default): SELECT "id", "title", "company", "description", "location", "salary", "date", "deadline", "experience", "applications", "createdAt", "updatedAt", "userId" FROM "Posts" AS "Post" WHERE "Post"."userId" = 1 ORDER BY "Post"."createdAt" DESC;
+Executing (default): SELECT "id", "title", "company", "description", "location", "salary", "date", "deadline", "experience", "applications", "createdAt", "updatedAt", "userId" FROM "Posts" AS "Post" WHERE "Post"."userId" = 1 ORDER BY "Post"."createdAt" DESC;
+Executing (default): SELECT "id", "title", "company", "description", "location", "salary", "date", "deadline", "experience", "applications", "createdAt", "updatedAt", "userId" FROM "Posts" AS "Post" ORDER BY "Post"."id" DESC;
+Executing (default): SELECT "id", "name", "gender", "qualification", "email", "password", "savedJobs", "createdAt", "updatedAt" FROM "Users" AS "User" WHERE "User"."id" = 1;
+Executing (default): SELECT "id", "title", "company", "description", "location", "salary", "date", "deadline", "experience", "applications", "createdAt", "updatedAt", "userId" FROM "Posts" AS "Post" ORDER BY "Post"."id" DESC;
+Executing (default): SELECT "id", "name", "gender", "qualification", "email", "password", "savedJobs", "createdAt", "updatedAt" FROM "Users" AS "User" WHERE "User"."id" = 1;
+Executing (default): SELECT "id", "name", "gender", "qualification", "email", "password", "savedJobs", "createdAt", "updatedAt" FROM "Users" AS "User" WHERE "User"."id" = 1;
+Executing (default): SELECT "id", "name", "gender", "qualification", "email", "password", "savedJobs", "createdAt", "updatedAt" FROM "Users" AS "User" WHERE "User"."id" = 1;
+Executing (default): SELECT "id", "name", "gender", "qualification", "email", "password", "savedJobs", "createdAt", "updatedAt" FROM "Users" AS "User" ORDER BY "User"."id" DESC;
+Executing (default): SELECT "id", "name", "gender", "qualification", "email", "password", "savedJobs", "createdAt", "updatedAt" FROM "Users" AS "User" ORDER BY "User"."id" DESC;
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Executing (default): SELECT "id", "name", "gender", "qualification", "email", "password", "savedJobs", "createdAt", "updatedAt" FROM "Users" AS "User" WHERE "User"."id" = 1;
+Executing (default): SELECT "id", "title", "company", "description", "location", "salary", "date", "deadline", "experience", "applications", "createdAt", "updatedAt", "userId" FROM "Posts" AS "Post" ORDER BY "Post"."id" DESC;
+Executing (default): SELECT "id", "name", "gender", "qualification", "email", "password", "savedJobs", "createdAt", "updatedAt" FROM "Users" AS "User" WHERE "User"."id" = 1;
+Executing (default): SELECT "id", "title", "company", "description", "location", "salary", "date", "deadline", "experience", "applications", "createdAt", "updatedAt", "userId" FROM "Posts" AS "Post" ORDER BY "Post"."id" DESC;
+Executing (default): SELECT "id", "name", "gender", "qualification", "email", "password", "savedJobs", "createdAt", "updatedAt" FROM "Users" AS "User" ORDER BY "User"."id" DESC;
+Executing (default): SELECT "id", "name", "gender", "qualification", "email", "password", "savedJobs", "createdAt", "updatedAt" FROM "Users" AS "User" ORDER BY "User"."id" DESC;
+Executing (default): SELECT "id", "name", "gender", "qualification", "email", "password", "savedJobs", "createdAt", "updatedAt" FROM "Users" AS "User" WHERE "User"."id" = 1;
+Executing (default): SELECT "id", "name", "gender", "qualification", "email", "password", "savedJobs", "createdAt", "updatedAt" FROM "Users" AS "User" WHERE "User"."id" = 1;

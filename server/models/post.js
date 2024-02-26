@@ -46,6 +46,21 @@ module.exports = (sequelize, DataTypes) => {
       return null;
     }
 
+    static async getUserPosts(uid) {
+      try {
+        const userPosts = await Post.findAll({
+          where: {
+            userId: uid
+          },
+          order: [["createdAt", "DESC"]]
+        });
+        return userPosts;
+      } catch (error) {
+        throw new Error("Error retrieving user posts: " + error.message);
+      }
+    }
+    
+
     static associate(models) {
       // define association here
       Post.belongsTo(models.User, {

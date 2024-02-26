@@ -27,7 +27,6 @@ const CreatePost: React.FC = () => {
     try {
       await postJobData(data, localStorage.getItem("authToken"));
       setShowModal(false);
-      alert("Job posted successfully!");
       window.location.reload();
     } catch (error) {
       alert("Failed to post job!");

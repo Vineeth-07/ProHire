@@ -116,3 +116,24 @@ export const saveJob = async (postId: number, userId: number) => {
     throw error;
   }
 };
+
+export const fetchUserPosts = async (): Promise<PostData[]> => {
+  try {
+    const response = await fetch(`${API_ENDPOINT}/post/user`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};

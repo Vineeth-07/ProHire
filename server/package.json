@@ -11,7 +11,7 @@
     "prepare": "cd .. && husky server/.husky",
     "clean:start": "npm run pretest && NODE_ENV=test npm start",
     "cy:test": "npx cypress run",
-    "dev": "npx pm2 start ecosystem.config.js --env production"
+    "dev": "npx pm2 start ecosystem.config.js --env production --no-daemon"
   },
   "author": "Vineeth",
   "license": "ISC",

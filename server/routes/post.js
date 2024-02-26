@@ -79,4 +79,15 @@ router.post("/:postId/save/:userId", authenticateToken, async (req, res) => {
   }
 });
 
+router.get("/user", authenticateToken, async (req, res) => {
+  try {
+    const uid=req.user.id
+    const posts = await Post.getUserPosts(uid);
+    res.status(200).json(posts);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: error });
+  }
+});
+
 module.exports = router;
