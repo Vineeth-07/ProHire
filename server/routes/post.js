@@ -57,7 +57,6 @@ router.post("/:postId/save/:userId", authenticateToken, async (req, res) => {
   try {
     const { postId, userId } = req.params;
     const user = await User.findByPk(userId);
-    console.log(user);
     if (user) {
       const savedJobs = JSON.parse(user.savedJobs);
       const index = savedJobs.indexOf(postId);

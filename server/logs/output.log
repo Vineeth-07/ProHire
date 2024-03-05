@@ -123,3 +123,49 @@ Executing (default): SELECT "id", "name", "gender", "qualification", "email", "p
 Executing (default): SELECT "id", "name", "gender", "qualification", "email", "password", "savedJobs", "createdAt", "updatedAt" FROM "Users" AS "User" ORDER BY "User"."id" DESC;
 Executing (default): SELECT "id", "name", "gender", "qualification", "email", "password", "savedJobs", "createdAt", "updatedAt" FROM "Users" AS "User" WHERE "User"."id" = 1;
 Executing (default): SELECT "id", "name", "gender", "qualification", "email", "password", "savedJobs", "createdAt", "updatedAt" FROM "Users" AS "User" WHERE "User"."id" = 1;
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Executing (default): SELECT "id", "title", "company", "description", "location", "salary", "date", "deadline", "experience", "applications", "createdAt", "updatedAt", "userId" FROM "Posts" AS "Post" ORDER BY "Post"."id" DESC;
+Executing (default): SELECT "id", "title", "company", "description", "location", "salary", "date", "deadline", "experience", "applications", "createdAt", "updatedAt", "userId" FROM "Posts" AS "Post" ORDER BY "Post"."id" DESC;
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Executing (default): SELECT "id", "title", "company", "description", "location", "salary", "date", "deadline", "experience", "applications", "createdAt", "updatedAt", "userId" FROM "Posts" AS "Post" ORDER BY "Post"."id" DESC;
+Executing (default): SELECT "id", "title", "company", "description", "location", "salary", "date", "deadline", "experience", "applications", "createdAt", "updatedAt", "userId" FROM "Posts" AS "Post" ORDER BY "Post"."id" DESC;
+Executing (default): SELECT "id", "title", "company", "description", "location", "salary", "date", "deadline", "experience", "applications", "createdAt", "updatedAt", "userId" FROM "Posts" AS "Post" ORDER BY "Post"."id" DESC;
+Executing (default): SELECT "id", "title", "company", "description", "location", "salary", "date", "deadline", "experience", "applications", "createdAt", "updatedAt", "userId" FROM "Posts" AS "Post" ORDER BY "Post"."id" DESC;
