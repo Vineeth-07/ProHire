@@ -91,7 +91,7 @@ jobs:
           secrets: '["NETLIFY_AUTH_TOKEN", "NETLIFY_SITE_ID"]'
 
   notifications:
-    needs: [run-tests, deploy]
+    needs: [run-tests, docker, deploy]
     runs-on: ubuntu-latest
     if: ${{ always() }}
     steps:
@@ -99,8 +99,8 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
-          if [[ ${{ needs.run-tests.result }} == 'success' && ${{ needs.deploy.result }} == 'success' ]]; then
-            curl -X POST -H 'Content-type: application/json' --data '{"text":"Workflow *Auto test ProHire* completed successfully. \nCheck the logs for details: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"}' $SLACK_WEBHOOK_URL
+          if [[ ${{ needs.run-tests.result }} == 'success' && ${{ needs.deploy.result }} == 'success' && ${{ needs.docker.result }} == 'success' ]]; then
+            curl -X POST -H 'Content-type: application/json' --data '{"text":"Workflow of *ProHire* completed successfully. \nCheck the logs for details: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"}' $SLACK_WEBHOOK_URL
           else
-            curl -X POST -H 'Content-type: application/json' --data '{"text":"Workflow *Auto test ProHire* failed.\nCheck the logs for details: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"}' $SLACK_WEBHOOK_URL
+            curl -X POST -H 'Content-type: application/json' --data '{"text":"Workflow of *ProHire* failed.\nCheck the logs for details: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"}' $SLACK_WEBHOOK_URL
           fi
