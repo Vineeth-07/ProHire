@@ -67,8 +67,8 @@ jobs:
       - name: Build and Push Docker Image
         run: |
           cd server
-          docker build -t prohire/production .
-          docker push prohire/production
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/prohire:latest .
+          docker push ${{ secrets.DOCKER_USERNAME }}/prohire:latest
 
   deploy:
     name: Auto deployment
