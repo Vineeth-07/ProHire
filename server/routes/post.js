@@ -3,7 +3,7 @@ const router = express.Router();
 const { Post, User } = require("../models");
 const authenticateToken = require("../middleware/authMiddleware");
 
-//post routes
+//post route
 router.get("/", authenticateToken, async (req, res) => {
   try {
     const posts = await Post.getPosts();
