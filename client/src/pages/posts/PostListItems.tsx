@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import maleIcon from "../../assets/images/male.png";
 import femaleIcon from "../../assets/images/female.png";
 import { fetchAllUsers } from "../../api/UserApi";
@@ -12,6 +13,7 @@ const PostListItems: React.FC<{ postData: any[]; setPostData: any }> = ({
   postData,
   setPostData,
 }) => {
+  const { t } = useTranslation();
   const [currentTime, setCurrentTime] = useState(new Date());
   const [userData, setUserData] = useState<UserData[]>([]);
   const [loggedinUser, setloggedinUser] = useState<UserData[]>([]);
@@ -198,7 +200,9 @@ const PostListItems: React.FC<{ postData: any[]; setPostData: any }> = ({
                       d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"
                     />
                   </svg>
-                  <span className="text-gray-800 font-bold mr-1">Company:</span>
+                  <span className="text-gray-800 font-bold mr-1">
+                    {t("Company")}:
+                  </span>
                   {post.company}
                 </p>
                 <p className="flex items-center mb-2">
@@ -217,7 +221,7 @@ const PostListItems: React.FC<{ postData: any[]; setPostData: any }> = ({
                     />
                   </svg>
                   <span className="text-gray-800 font-bold mr-1">
-                    Description:
+                    {t("Description")}:
                   </span>
                   {post.description}
                 </p>
@@ -237,7 +241,7 @@ const PostListItems: React.FC<{ postData: any[]; setPostData: any }> = ({
                     />
                   </svg>
                   <span className="text-gray-800 font-bold mr-1">
-                    Deadline:{" "}
+                    {t("Deadline")}:
                   </span>
                   {new Date(post.deadline).toLocaleDateString("en-US")}
                 </p>
@@ -262,7 +266,7 @@ const PostListItems: React.FC<{ postData: any[]; setPostData: any }> = ({
                     />
                   </svg>
                   <span className="text-gray-800 font-bold mr-1">
-                    Location:
+                    {t("Location")}:
                   </span>
                   {post.location}
                 </p>
@@ -281,7 +285,9 @@ const PostListItems: React.FC<{ postData: any[]; setPostData: any }> = ({
                       d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z"
                     />
                   </svg>
-                  <span className="text-gray-800 font-bold mr-1">Salary:</span>
+                  <span className="text-gray-800 font-bold mr-1">
+                    {t("Salary")}:
+                  </span>
                   {post.salary}
                 </p>
                 <p className="flex items-center mb-2">
@@ -300,7 +306,7 @@ const PostListItems: React.FC<{ postData: any[]; setPostData: any }> = ({
                     />
                   </svg>
                   <span className="text-gray-800 font-bold mr-1">
-                    Experience:
+                    {t("Experience")}:
                   </span>
                   {post.experience}
                 </p>
@@ -335,14 +341,12 @@ const PostListItems: React.FC<{ postData: any[]; setPostData: any }> = ({
                     clipRule="evenodd"
                   />
                 </svg>
-
                 <span>
                   {currentUser && post.applications.includes(currentUser.id)
-                    ? "Applied"
-                    : "Apply"}
+                    ? t("Applied")
+                    : t("Apply")}
                 </span>
               </div>
-
               <div
                 className="flex items-center space-x-1"
                 style={{ cursor: "pointer" }}
@@ -362,7 +366,7 @@ const PostListItems: React.FC<{ postData: any[]; setPostData: any }> = ({
                     d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.076-4.076a1.526 1.526 0 0 1 1.037-.443 48.282 48.282 0 0 0 5.68-.494c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"
                   />
                 </svg>
-                <span>Comment</span>
+                <span>{t("Comment")}</span>
               </div>
               <div
                 className="flex items-center space-x-1"
@@ -390,8 +394,8 @@ const PostListItems: React.FC<{ postData: any[]; setPostData: any }> = ({
                   />
                 </svg>
                 {currentUser && currentUser.savedJobs.includes(post.id)
-                  ? "Saved"
-                  : "Save"}
+                  ? t("Saved")
+                  : t("Save")}
               </div>
             </div>
             {showDialogMap[post.id] && (

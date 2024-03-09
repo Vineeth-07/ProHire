@@ -1,10 +1,19 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 import logo from "../../assets/images/logo.png";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const Appbar = () => {
+  const { t, i18n } = useTranslation();
+  const [currentLanguage, setCurrentLanguage] = useState(i18n.language);
+
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+    setCurrentLanguage(lng);
+  };
+
   return (
     <Disclosure as="nav" className="bg-white shadow">
       {({}) => (
@@ -32,8 +41,63 @@ const Appbar = () => {
                       <>
                         <div>
                           <Menu.Button className="inline-flex items-center justify-center w-full rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100">
+                            {t("Language")}
+                          </Menu.Button>
+                        </div>
+                        <Transition
+                          show={open}
+                          as={Fragment}
+                          enter="transition ease-out duration-100"
+                          enterFrom="transform opacity-0 scale-95"
+                          enterTo="transform opacity-100 scale-100"
+                          leave="transition ease-in duration-75"
+                          leaveFrom="transform opacity-100 scale-100"
+                          leaveTo="transform opacity-0 scale-95"
+                        >
+                          <Menu.Items
+                            static
+                            className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                          >
+                            <div className="py-1">
+                              <Menu.Item>
+                                <button
+                                  className={`${
+                                    currentLanguage === "en"
+                                      ? "bg-gray-100 text-gray-900"
+                                      : "text-gray-700"
+                                  } block px-4 py-2 text-sm`}
+                                  onClick={() => changeLanguage("en")}
+                                >
+                                  English
+                                </button>
+                              </Menu.Item>
+                              <Menu.Item>
+                                <button
+                                  className={`${
+                                    currentLanguage === "fr"
+                                      ? "bg-gray-100 text-gray-900"
+                                      : "text-gray-700"
+                                  } block px-4 py-2 text-sm`}
+                                  onClick={() => changeLanguage("fr")}
+                                >
+                                  French
+                                </button>
+                              </Menu.Item>
+                            </div>
+                          </Menu.Items>
+                        </Transition>
+                      </>
+                    )}
+                  </Menu>
+                </div>
+                <div className="ml-3 relative">
+                  <Menu>
+                    {({ open }) => (
+                      <>
+                        <div>
+                          <Menu.Button className="inline-flex items-center justify-center w-full rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100">
                             <UserCircleIcon className="h-6 w-6 mr-1" />
-                            <span>Account</span>
+                            <span>{t("Account")}</span>
                           </Menu.Button>
                         </div>
                         <Transition
@@ -61,7 +125,7 @@ const Appbar = () => {
                                         : "text-gray-700"
                                     } block px-4 py-2 text-sm`}
                                   >
-                                    Your Profile
+                                    {t("Your Profile")}
                                   </Link>
                                 )}
                               </Menu.Item>
@@ -75,7 +139,7 @@ const Appbar = () => {
                                         : "text-gray-700"
                                     } block px-4 py-2 text-sm`}
                                   >
-                                    Signout
+                                    {t("Signout")}
                                   </Link>
                                 )}
                               </Menu.Item>

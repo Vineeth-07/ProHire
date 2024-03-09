@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { postComment, fetchComments, CommentData } from "../../api/CommentApi";
+import i18n from "../../i18n"; // Import i18n instance
 
 interface CommentBoxProps {
   post: any;
@@ -8,6 +10,7 @@ interface CommentBoxProps {
 }
 
 const CommentBox: React.FC<CommentBoxProps> = ({ post, user, allUsers }) => {
+  const { t } = useTranslation();
   const [commentText, setCommentText] = useState("");
   const [comments, setComments] = useState<CommentData[]>([]);
 
@@ -47,91 +50,101 @@ const CommentBox: React.FC<CommentBoxProps> = ({ post, user, allUsers }) => {
     }
   };
 
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+  };
+
   return (
-    <div
-      style={{
-        backgroundColor: "#f0f0f0",
-        padding: "10px",
-        borderRadius: "10px",
-        marginTop: "10px",
-      }}
-    >
-      <div
-        style={{
-          marginBottom: "10px",
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
-        <input
-          type="text"
-          value={commentText}
-          onChange={handleCommentChange}
-          placeholder="Add your comment..."
-          style={{
-            flexGrow: 1,
-            border: "1px solid #ccc",
-            borderRadius: "5px",
-            padding: "8px",
-            marginRight: "10px",
-          }}
-          className="w-full"
-        />
-        <button
-          onClick={handleCommentSubmit}
-          className="bg-gradient-to-r from-purple-500 to-indigo-500 text-white font-bold py-2 px-4 rounded-full mr-4 transition duration-300 ease-in-out transform hover:-translate-y-1"
-        >
-          Comment
-        </button>
+    <div>
+      <div style={{ textAlign: "right", marginBottom: "10px" }}>
+        <button onClick={() => changeLanguage("en")}>English</button>
+        <button onClick={() => changeLanguage("fr")}>French</button>
       </div>
       <div
         style={{
-          maxHeight: "200px",
-          overflowY: "auto",
-          paddingRight: "20px",
-          scrollbarWidth: "thin",
-          scrollbarColor: "#888 transparent",
+          backgroundColor: "#f0f0f0",
+          padding: "10px",
+          borderRadius: "10px",
+          marginTop: "10px",
         }}
       >
-        {comments
-          .filter((comment) => comment.postId === post.id)
-          .map((comment) => (
-            <div
-              key={comment.id}
-              style={{
-                border: "1px solid #ccc",
-                borderRadius: "5px",
-                padding: "10px",
-                marginBottom: "10px",
-                display: "flex",
-                flexDirection: "column",
-                fontFamily: "sans-serif",
-              }}
-            >
-              <div style={{ marginBottom: "5px", textAlign: "left" }}>
-                <p style={{ fontWeight: "bold", marginBottom: "3px" }}>
-                  {allUsers.find((u: any) => u.id === comment.userId)?.name ||
-                    "Unknown User"}
-                </p>
-                <p
-                  style={{
-                    fontSize: "12px",
-                    color: "#666",
-                  }}
-                >
-                  {new Date(comment.date).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                  {", "}
-                  {new Date(comment.date).toLocaleDateString()}
+        <div
+          style={{
+            marginBottom: "10px",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <input
+            type="text"
+            value={commentText}
+            onChange={handleCommentChange}
+            placeholder="Add your comment..."
+            style={{
+              flexGrow: 1,
+              border: "1px solid #ccc",
+              borderRadius: "5px",
+              padding: "8px",
+              marginRight: "10px",
+            }}
+            className="w-full"
+          />
+          <button
+            onClick={handleCommentSubmit}
+            className="bg-gradient-to-r from-purple-500 to-indigo-500 text-white font-bold py-2 px-4 rounded-full mr-4 transition duration-300 ease-in-out transform hover:-translate-y-1"
+          >
+            {t("Comment")}
+          </button>
+        </div>
+        <div
+          style={{
+            maxHeight: "200px",
+            overflowY: "auto",
+            paddingRight: "20px",
+            scrollbarWidth: "thin",
+            scrollbarColor: "#888 transparent",
+          }}
+        >
+          {comments
+            .filter((comment) => comment.postId === post.id)
+            .map((comment) => (
+              <div
+                key={comment.id}
+                style={{
+                  border: "1px solid #ccc",
+                  borderRadius: "5px",
+                  padding: "10px",
+                  marginBottom: "10px",
+                  display: "flex",
+                  flexDirection: "column",
+                  fontFamily: "sans-serif",
+                }}
+              >
+                <div style={{ marginBottom: "5px", textAlign: "left" }}>
+                  <p style={{ fontWeight: "bold", marginBottom: "3px" }}>
+                    {allUsers.find((u: any) => u.id === comment.userId)?.name ||
+                      "Unknown User"}
+                  </p>
+                  <p
+                    style={{
+                      fontSize: "12px",
+                      color: "#666",
+                    }}
+                  >
+                    {new Date(comment.date).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                    {", "}
+                    {new Date(comment.date).toLocaleDateString()}
+                  </p>
+                </div>
+                <p style={{ marginTop: "5px", flexGrow: 1, textAlign: "left" }}>
+                  {comment.comment}
                 </p>
               </div>
-              <p style={{ marginTop: "5px", flexGrow: 1, textAlign: "left" }}>
-                {comment.comment}
-              </p>
-            </div>
-          ))}
+            ))}
+        </div>
       </div>
     </div>
   );
