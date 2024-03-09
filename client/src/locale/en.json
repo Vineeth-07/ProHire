@@ -1,5 +1,6 @@
 {
     "translation": {
+        "Account":"Account",
         "Applied": "Applied",
         "Apply": "Apply",
         "Comment": "Comment",
@@ -18,6 +19,8 @@
         "Qualification": "Qualification",
         "Salary": "Salary",
         "Save": "Save",
-        "Saved": "Saved"
+        "Saved": "Saved",
+        "Signout":"Signout",
+        "Your Profile":"Your profile"
     }
 }

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useForm, SubmitHandler } from "react-hook-form";
 import maleIcon from "../../assets/images/male.png";
 import femaleIcon from "../../assets/images/female.png";
@@ -18,6 +19,7 @@ interface Inputs {
 }
 
 const CreatePost: React.FC = () => {
+  const { t } = useTranslation();
   const [userData, setUserData] = useState<UserData[]>([]);
   const [showModal, setShowModal] = useState(false);
   const { register, handleSubmit } = useForm<Inputs>();
@@ -95,7 +97,7 @@ const CreatePost: React.FC = () => {
         }}
         onClick={() => setShowModal(true)}
       >
-        Post a job
+        {t("Post a job")}
       </div>
       {showModal && (
         <div

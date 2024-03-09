@@ -1,5 +1,6 @@
 {
     "translation": {
+        "Account":"Compte",
         "Applied": "Appliqué",
         "Apply": "Appliquer",
         "Comment": "Commentaire",
@@ -18,6 +19,8 @@
         "Qualification": "Qualification",
         "Salary": "Salaire",
         "Save": "Sauvegarder",
-        "Saved": "Enregistré"
+        "Saved": "Enregistré",
+        "Signout":"Se déconnecter",
+        "Your Profile":"Votre profil"
     }
 }

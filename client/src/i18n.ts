@@ -9,8 +9,8 @@ i18n
   .init({
     debug: true,
     resources: {
-      en: { translation: { ...enJSON } },
-      fr: { translation: { ...frJSON } },
+      en: { ...enJSON },
+      fr: { ...frJSON },
     },
     fallbackLng: "en",
   });

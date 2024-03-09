@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import maleIcon from "../../assets/images/male.png";
 import femaleIcon from "../../assets/images/female.png";
 import AccountLayout from "../../layouts/account";
@@ -6,6 +7,7 @@ import { UserData, fetchUserData } from "../../api/UserApi";
 import UserPosts from "./UserPosts";
 
 const Profile: React.FC = () => {
+  const { t } = useTranslation();
   const [loggedinUser, setLoggedinUser] = useState<UserData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [activeSection, setActiveSection] = useState<string>("posts");
@@ -38,7 +40,9 @@ const Profile: React.FC = () => {
       ) : (
         <div className="grid grid-cols-4">
           <div className="col-start-2 col-span-2 bg-white rounded-lg p-6 shadow-md">
-            <p className="text-2xl font-bold text-center mb-3">Profile</p>
+            <p className="text-2xl font-bold text-center mb-3">
+              {t("Profile")}
+            </p>
             {currentUser && (
               <>
                 <div className="flex items-center mb-4">
@@ -55,11 +59,15 @@ const Profile: React.FC = () => {
                   <h2 className="text-2xl font-bold">{currentUser.name}</h2>
                 </div>
                 <div>
-                  <p className="font-semibold">Gender: {currentUser.gender}</p>
                   <p className="font-semibold">
-                    Qualification: {currentUser.qualification}
+                    {t("Gender")}: {currentUser.gender}
                   </p>
-                  <p className="font-semibold">Email: {currentUser.email}</p>
+                  <p className="font-semibold">
+                    {t("Qualification")}: {currentUser.qualification}
+                  </p>
+                  <p className="font-semibold">
+                    {t("Email")}: {currentUser.email}
+                  </p>
                 </div>
               </>
             )}
@@ -76,7 +84,7 @@ const Profile: React.FC = () => {
                   } transition-colors duration-300`}
                   onClick={() => setActiveSection("posts")}
                 >
-                  Posts
+                  {t("Posts")}
                 </button>
                 <button
                   className={`text-lg font-semibold px-4 py-2 rounded focus:outline-none ${
@@ -86,7 +94,7 @@ const Profile: React.FC = () => {
                   } transition-colors duration-300`}
                   onClick={() => setActiveSection("saved")}
                 >
-                  Saved
+                  {t("Saved")}
                 </button>
                 <button
                   className={`text-lg font-semibold px-4 py-2 rounded focus:outline-none ${
@@ -96,7 +104,7 @@ const Profile: React.FC = () => {
                   } transition-colors duration-300`}
                   onClick={() => setActiveSection("applied")}
                 >
-                  Applied
+                  {t("Applied")}
                 </button>
               </div>
             </div>
