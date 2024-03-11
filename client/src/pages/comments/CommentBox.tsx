@@ -49,6 +49,18 @@ const CommentBox: React.FC<CommentBoxProps> = ({ post, user, allUsers }) => {
     }
   };
 
+  const dateFormatter = new Intl.DateTimeFormat(navigator.language, {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  const timeFormatter = new Intl.DateTimeFormat(navigator.language, {
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+  });
+
   return (
     <div
       style={{
@@ -121,12 +133,9 @@ const CommentBox: React.FC<CommentBoxProps> = ({ post, user, allUsers }) => {
                     color: "#666",
                   }}
                 >
-                  {new Date(comment.date).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
+                  {timeFormatter.format(new Date(comment.date))}
                   {", "}
-                  {new Date(comment.date).toLocaleDateString()}
+                  {dateFormatter.format(new Date(comment.date))}
                 </p>
               </div>
               <p style={{ marginTop: "5px", flexGrow: 1, textAlign: "left" }}>

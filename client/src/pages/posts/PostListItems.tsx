@@ -116,6 +116,17 @@ const PostListItems: React.FC<{ postData: any[]; setPostData: any }> = ({
     }
   };
 
+  const dateFormatter = new Intl.DateTimeFormat(navigator.language, {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  const currencyFormatter = new Intl.NumberFormat(navigator.language, {
+    style: "currency",
+    currency: "INR",
+  });
+
   return (
     <>
       {postData.map((post: any, index: number) => {
@@ -243,7 +254,7 @@ const PostListItems: React.FC<{ postData: any[]; setPostData: any }> = ({
                   <span className="text-gray-800 font-bold mr-1">
                     {t("Deadline")}:
                   </span>
-                  {new Date(post.deadline).toLocaleDateString("en-US")}
+                  {dateFormatter.format(new Date(post.deadline))}
                 </p>
                 <p className="flex items-center mb-2">
                   <svg
@@ -288,7 +299,7 @@ const PostListItems: React.FC<{ postData: any[]; setPostData: any }> = ({
                   <span className="text-gray-800 font-bold mr-1">
                     {t("Salary")}:
                   </span>
-                  {post.salary}
+                  {currencyFormatter.format(post.salary)}
                 </p>
                 <p className="flex items-center mb-2">
                   <svg
