@@ -32,6 +32,14 @@ const HomePage: React.FC = () => {
               >
                 Signup
               </Link>
+              <button
+                type="button"
+                onClick={() => {
+                  throw new Error("Sentry Test Error");
+                }}
+              >
+                Break the world
+              </button>
             </div>
           </div>
         </div>

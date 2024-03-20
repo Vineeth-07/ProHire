@@ -27,8 +27,7 @@ export const postComment = async (
     }
     return responseData;
   } catch (error) {
-    console.error("Adding comment failed:", error);
-    throw error;
+    throw new Error("Adding comment failed!");
   }
 };
 

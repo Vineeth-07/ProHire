@@ -37,7 +37,7 @@ const SigninForm: React.FC = () => {
 
       navigate("/dashboard");
     } catch (error) {
-      console.error("Sign-in failed:", error);
+      throw new Error("Sign-in failed");
     }
   };
 
