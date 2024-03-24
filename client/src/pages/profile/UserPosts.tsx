@@ -16,6 +16,7 @@ const UserPosts: React.FC<UserPostsProps> = ({ currentUser }) => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [userData, setUserData] = useState<UserData[]>([]);
   const [userPosts, setUserPosts] = useState<PostData[]>([]);
+  const [showModal, setShowModal] = useState(false);
   const [showDialogMap, setShowDialogMap] = useState<{
     [postId: number]: boolean;
   }>({});
@@ -278,8 +279,93 @@ const UserPosts: React.FC<UserPostsProps> = ({ currentUser }) => {
                   </span>
                   {post.experience}
                 </p>
+                <p className="flex items-center mb-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-6 h-6 mr-2"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+                    />
+                  </svg>
+                  <span
+                    style={{ cursor: "pointer", color: "blue" }}
+                    className="text-gray-800 font-bold mr-1"
+                    onClick={() => setShowModal(true)}
+                  >
+                    Applicants:
+                  </span>
+                  {post.applications.length}
+                  {/* {userData} */}
+                </p>
               </li>
             </ul>
+            <div>
+              {showModal && (
+                <div
+                  style={{
+                    position: "fixed",
+                    zIndex: 1,
+                    left: 0,
+                    top: 0,
+                    width: "100%",
+                    height: "100%",
+                    backgroundColor: "rgba(0, 0, 0, 0.2)",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <div
+                    style={{
+                      backgroundColor: "white",
+                      padding: "20px",
+                      borderRadius: "10px",
+                      width: "50%",
+                      border: "1px solid black",
+                    }}
+                  >
+                    <span
+                      style={{
+                        float: "right",
+                        cursor: "pointer",
+                        fontSize: "24px",
+                      }}
+                      onClick={() => setShowModal(false)}
+                    >
+                      &times;
+                    </span>
+                    <h2
+                      style={{
+                        marginBottom: "5px",
+                        color: "black",
+                        fontSize: "30px",
+                        textAlign: "center",
+                      }}
+                    >
+                      Applicants
+                    </h2>
+                    <div>
+                      <ul>
+                        {userData.map((user) => (
+                          <li key={user.id}>
+                            {post.applications[user.id]
+                              ? user.name
+                              : "Unknown User"}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
             <div className="flex items-center justify-center">
               <div
                 className="flex items-center space-x-1"
