@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { Post, User } = require("../models");
+const getResponse = require("../middleware/chatGPT");
 const authenticateToken = require("../middleware/authMiddleware");
 
 //post routes
@@ -16,15 +17,17 @@ router.get("/", authenticateToken, async (req, res) => {
 
 router.post("/createpost", authenticateToken, async (req, res) => {
   try {
-    const {
-      title,
-      company,
-      description,
-      location,
-      salary,
-      deadline,
-      experience,
-    } = req.body;
+    const { aitext } = req.body;
+    const response = await getResponse(aitext);
+    const argumentsObject = JSON.parse(response.arguments);
+    const title = argumentsObject.title;
+    const company = argumentsObject.company;
+    const description = argumentsObject.description;
+    const location = argumentsObject.location;
+    const salary = argumentsObject.salary;
+    const deadline = new Date(argumentsObject.deadline);
+    const experience = argumentsObject.experience;
+
     await Post.createPost(
       title,
       company,
@@ -80,7 +83,7 @@ router.post("/:postId/save/:userId", authenticateToken, async (req, res) => {
 
 router.get("/user", authenticateToken, async (req, res) => {
   try {
-    const uid=req.user.id
+    const uid = req.user.id;
     const posts = await Post.getUserPosts(uid);
     res.status(200).json(posts);
   } catch (error) {

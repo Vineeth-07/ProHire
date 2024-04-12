@@ -8,14 +8,7 @@ import { fetchUserData } from "../../api/UserApi";
 import { UserData } from "../../api/UserApi";
 
 interface Inputs {
-  title: string;
-  company: string;
-  description: string;
-  location: string;
-  salary: string;
-  deadline: Date;
-  experience: string;
-  applications: string;
+  aitext: string;
 }
 
 const CreatePost: React.FC = () => {
@@ -154,97 +147,19 @@ const CreatePost: React.FC = () => {
               }}
             >
               <label
-                htmlFor="title"
+                htmlFor="aitext"
                 style={{ marginBottom: "8px", color: "white" }}
               >
-                Title:
+                Job details:
               </label>
-              <input
-                type="text"
-                id="title"
-                {...register("title", { required: true })}
-                style={{ marginBottom: "8px", padding: "8px" }}
-                required
-              />
-              <label
-                htmlFor="company"
-                style={{ marginBottom: "8px", color: "white" }}
-              >
-                Company:
-              </label>
-              <input
-                type="text"
-                id="company"
-                {...register("company", { required: true })}
-                style={{ marginBottom: "8px", padding: "8px" }}
-                required
-              />
-
-              <label
-                htmlFor="description"
-                style={{ marginBottom: "8px", color: "white" }}
-              >
-                Description:
-              </label>
-              <input
-                type="text"
-                id="description"
-                {...register("description", { required: true })}
-                style={{ marginBottom: "8px", padding: "8px" }}
-                required
-              />
-
-              <label
-                htmlFor="location"
-                style={{ marginBottom: "8px", color: "white" }}
-              >
-                Location:
-              </label>
-              <input
-                type="text"
-                id="location"
-                {...register("location", { required: true })}
-                style={{ marginBottom: "8px", padding: "8px" }}
-                required
-              />
-              <label
-                htmlFor="salary"
-                style={{ marginBottom: "8px", color: "white" }}
-              >
-                Salary:
-              </label>
-              <input
-                type="text"
-                id="salary"
-                {...register("salary", { required: true })}
-                style={{ marginBottom: "8px", padding: "8px" }}
-                required
-              />
-              <label
-                htmlFor="deadline"
-                style={{ marginBottom: "8px", color: "white" }}
-              >
-                Deadline:
-              </label>
-              <input
-                type="date"
-                id="deadline"
-                {...register("deadline", { required: true })}
-                style={{ marginBottom: "8px", padding: "8px" }}
-                min={new Date().toISOString().split("T")[0]}
-                required
-              />
-              <label
-                htmlFor="experience"
-                style={{ marginBottom: "8px", color: "white" }}
-              >
-                Experience:
-              </label>
-              <input
-                type="text"
-                id="experience"
-                {...register("experience", { required: true })}
-                style={{ marginBottom: "8px", padding: "8px" }}
+              <p style={{ marginBottom: "8px", color: "white" }}>
+                Mention job title, company, description, location, salary,
+                deadline, experience in the details{" "}
+              </p>
+              <textarea
+                id="aitext"
+                {...register("aitext", { required: true })}
+                style={{ marginBottom: "8px", padding: "8px", height: "200px" }}
                 required
               />
               <button

@@ -14,14 +14,7 @@ export interface PostData {
 }
 
 interface JobData {
-  title: string;
-  company: string;
-  description: string;
-  location: string;
-  salary: string;
-  deadline: Date;
-  experience: string;
-  applications: string;
+  aitext: string;
 }
 
 export const fetchPostData = async (): Promise<PostData[]> => {

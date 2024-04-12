@@ -355,9 +355,14 @@ const UserPosts: React.FC<UserPostsProps> = ({ currentUser }) => {
                       <ul>
                         {userData.map((user) => (
                           <li key={user.id}>
+                            {"Name: "}
                             {post.applications[user.id]
                               ? user.name
                               : "Unknown User"}
+                            {" Email: "}
+                            {post.applications[user.id]
+                              ? user.email
+                              : "Unknown email"}
                           </li>
                         ))}
                       </ul>

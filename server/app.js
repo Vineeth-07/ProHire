@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const postRoutes = require("./routes/post");
 const userRoutes = require("./routes/user");
-const commentRoutes=require("./routes/comment")
+const commentRoutes = require("./routes/comment");
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -15,6 +15,6 @@ app.use(cookieParser("Some secret String"));
 // Routes
 app.use("/user", userRoutes);
 app.use("/post", postRoutes);
-app.use("/comment",commentRoutes)
+app.use("/comment", commentRoutes);
 
 module.exports = app;
