@@ -74,6 +74,7 @@ async function askChatGPT(question) {
   }
 }
 
+// function
 async function getResponse(question) {
   const suggestion = await askChatGPT(question);
   if (suggestion) {
