@@ -4,7 +4,7 @@ const app = require("../app");
 const jwt = require("jsonwebtoken");
 
 let server;
-// tests
+
 describe("ProHires test cases", () => {
   let authToken;
 
