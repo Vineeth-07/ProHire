@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser("Some secret String"));
-// sample comment
+
 // Routes
 app.use("/user", userRoutes);
 app.use("/post", postRoutes);
