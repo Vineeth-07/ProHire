@@ -55,14 +55,8 @@ describe("ProHires test cases", () => {
       .post("/post/createpost")
       .set("Authorization", `Bearer ${authToken}`)
       .send({
-        title: "test",
-        company: "test company",
-        description: "test description",
-        location: "test location",
-        salary: "test salary",
-        date: "01-01-2024",
-        deadline: "01-02-2024",
-        experience: "test experience",
+        aitext:
+          "Full stack developer at Amazon with 25Lpa with 2 years experience at London, last date to apply is May end",
       });
     expect(response.statusCode).toBe(201);
   });
