@@ -124,7 +124,7 @@ const PostListItems: React.FC<{ postData: any[]; setPostData: any }> = ({
 
   const currencyFormatter = new Intl.NumberFormat(navigator.language, {
     style: "currency",
-    currency: "INR",
+    currency: "USD",
   });
 
   return (
